@@ -9,6 +9,7 @@ def main_menu():
         basic.clear_console()
         print("Select Course ---")
         print("1 - CEIS150 - Stock Analyzer")
+        print("2 - CEIS150 - Stock GUI")
         print("E - Exit Program")
         option = input("Enter Menu Option: ")
         if option == "E":
@@ -18,6 +19,9 @@ def main_menu():
         if option == "1":
             basic.clear_console()
             call(["python", "CEIS150/stock_menu.py"])
+        if option == "2":
+            basic.clear_console()
+            call(["python", "CEIS150/stock_GUI.py"])
         else:
             print("Unknown Command Try again")
             basic.clear_console()
