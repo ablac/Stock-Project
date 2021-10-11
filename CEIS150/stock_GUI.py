@@ -3,7 +3,7 @@
 # Date: 
 
 from datetime import datetime
-from stock_class import Stock, DailyData
+from Imports.stock_class import Stock, DailyData
 from os import path
 from tkinter import *
 from tkinter import ttk
@@ -21,7 +21,7 @@ class StockApp:
         
         # Create Window
         self.root = Tk()
-        self.root.title("Stock Manager")
+        self.root.title("Keith's Stock Manager")
       
         # Add Menu
         self.menubar = Menu(self.root)
@@ -119,7 +119,56 @@ class StockApp:
 
     # Display stock price and volume history.
     def display_stock_data(self):
-        messagebox.showinfo("This module is under construction") 
+        symbol = self.stockList.get(self.stockList.curselection())
+        
+        for stock in self.stock_list:
+            if stock.symbol == symbol:
+                self.headingLabel['text'] = stock.name + " - " + str(stock.shares) + " Shares"
+                self.dailyDataList.delete("1.0",END)
+                self.stockReport.delete("1.0",END)
+                self.dailyDataList.insert(END,"- Date -   - Price -   - Volume -\n")
+                self.dailyDataList.insert(END,"=================================\n")
+                for daily_data in stock.DataList:
+                    row = daily_data.date + "   " +  '${:0,.2f}'.format(daily_data.close) + "   " + str(daily_data.volume) + "\n"
+                    self.dailyDataList.insert(END,row)
+                    currentDate= datetime.strptime(daily_data.date,"%Y-%m-%d")
+                #display report
+                count = 0
+                price_total = 0.00
+                volume_total = 0
+                lowPrice = 999999.99
+                highPrice = 0.00
+                lowVolume = 999999999999
+                highVolume = 0
+
+                for daily_data in stock.DataList:
+                    count = count + 1
+                    price_total = price_total + daily_data.close
+                    volume_total = volume_total + daily_data.volume
+                    if daily_data.close < lowPrice:
+                        lowPrice = daily_data.close
+                    if daily_data.close > highPrice:
+                        highPrice = daily_data.close
+                    if daily_data.volume < lowVolume:
+                        lowVolume = daily_data.volume
+                    if daily_data.volume > highVolume:
+                        highVolume = daily_data.volume
+ 
+                    priceChange = lowPrice-highPrice
+                    
+                if count > 0:
+                    self.stockReport.insert(END,"Summary Data--\n\n")
+                    self.stockReport.insert(END,"Low Price: " + "${:,.2f}".format(lowPrice) + "\n")
+                    self.stockReport.insert(END,"High Price: " + "${:,.2f}".format(highPrice) + "\n")
+                    self.stockReport.insert(END,"Average Price: " + "${:,.2f}".format(price_total/count) + "\n\n")
+                    self.stockReport.insert(END,"Low Volume: " + str(lowVolume) + "\n")
+                    self.stockReport.insert(END,"High Volume: " + str(highVolume) + "\n")
+                    self.stockReport.insert(END,"Average Volume: " + "${:,.2f}".format(volume_total/count) + "\n\n")
+                    self.stockReport.insert(END,"Change in Price: " + "${:,.2f}".format(priceChange) + "\n")
+                    self.stockReport.insert(END,"Profit/Loss: " + "${:,.2f}".format(priceChange * stock.shares) + "\n")
+                else:
+                    self.stockReport.insert(END,"*** No daily history.")
+
     
     # Add new stock to track.
     def add_stock(self):
