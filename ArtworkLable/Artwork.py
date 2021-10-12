@@ -10,19 +10,19 @@ class Artist:
     if self.death_year == -1:
       print(f"Artist: {self.name}, born {self.birth_year}")
     else:
-      print(f"Artist: {self.name}, ({self.birth_year}-{self.death_year})")
+      print(f"Artist: {self.name} ({self.birth_year}-{self.death_year})")
       
 class Artwork:
     # TODO: Define constructor with parameters to initialize instance attributes
     #       (title, year_created, artist)
-  def __init__(self, title="None", year_created=0, Artist=Artist()):
+  def __init__(self, title="None", year_created=0, artist=Artist()):
     self.title = title
     self.year_created = year_created
-    self.Artist = Artist
+    self.artist = artist
     # TODO: Define print_info() method
   def print_info(self):
-    self.Artist.print_info()
-    print(f"Title: {self.title},  {self.year_created}")
+    self.artist.print_info()
+    print(f"Title: {self.title}, {self.year_created}")
     
 
 
