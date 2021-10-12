@@ -214,7 +214,7 @@ def file_processing(stock_list):
             json_list = [obj_encoder(stock) for stock in stock_list]
             json_dict["Stock"] = json_list
             try:
-                with open("CEIS150/CSV/Saved/stock_data.json", 'w') as f:
+                with open("StockMenu/CSV/Saved/stock_data.json", 'w') as f:
                     json.dump(json_dict, f, indent=4)
                 print("\nData saved to stock_data.json--")
             except IOError:
@@ -222,7 +222,7 @@ def file_processing(stock_list):
                 break
         elif choise == "L":
             try:
-                with open("CEIS150/CSV/Saved/stock_data.json", "r") as f:
+                with open("StockMenu/CSV/Saved/stock_data.json", "r") as f:
                     str_file = f.read()
                     str_file = str_file.replace("\'", "\"")
                     stock_obj = json.loads(str_file)
@@ -244,7 +244,7 @@ def file_processing(stock_list):
 def import_stock_csv(stock_list, symbol, filename):
     for stock in stock_list:
         if stock.symbol == symbol:
-            with open('CEIS150/CSV/' + filename, newline='') as stockdata:
+            with open('StockMenu/CSV/' + filename, newline='') as stockdata:
                 datareader = csv.reader(stockdata, delimiter=',')
                 next(datareader)
                 for row in datareader:
